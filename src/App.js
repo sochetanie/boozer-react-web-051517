@@ -9,6 +9,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <Route path='/' component={Nav} />
+          { /*<Route path='/cocktails/{this.props.searchTerms}' component={Search} /> */ }
           <Route path='/cocktails' component={CocktailContainer} />
         </div>
       </Router>

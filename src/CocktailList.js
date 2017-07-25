@@ -1,19 +1,27 @@
 import React from 'react'
-import { Feed } from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
+import { List } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 export default class CocktailList extends React.Component {
 
   renderList () {
-    return (this.props.cocktails.map(g => (
-      <Feed.Event key={g.id}>
-        <Feed.Content>
-          <Link onClick={() => this.props.changeCocktail(g)} to={`/cocktails/${g.id}`}>{g.name}</Link>
-        </Feed.Content>
-      </Feed.Event>
-    )))
+    return (
+      <List divided relaxed>
+      {this.props.cocktails.map(x => (
+        <List.Item>
+          <List.Icon name='lab' size='large' verticalAlign='middle' />
+          <List.Content>
+            <List.Header>
+              <Link onClick={() => this.props.changeCocktail(x)} to={`/cocktails/${x.id}`}>{x.name}</Link>
+            </List.Header>
+          </List.Content>
+        </List.Item>
+      ))}
+      </List>
+      )
   }
+
   render () {
-    return (<Feed>{this.renderList()}</Feed>)
+    return this.renderList()
   }
 }

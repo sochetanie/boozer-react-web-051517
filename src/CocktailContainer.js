@@ -2,7 +2,7 @@ import React from 'react'
 import CocktailList from './CocktailList'
 import CocktailShow from './CocktailShow'
 import {Route} from 'react-router-dom'
-import { Segment } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
 
 export default class CocktailContainer extends React.Component {
@@ -12,7 +12,6 @@ export default class CocktailContainer extends React.Component {
     this.state = {
       currentCocktail: {},
       cocktailList: [],
-      searchTerm: ''
     }
   }
 
@@ -20,7 +19,6 @@ export default class CocktailContainer extends React.Component {
     fetch('http://localhost:3000/api/v1/cocktails')
     .then(res=>res.json())
     .then(cocktailList=>{
-      // debugger
       this.setState({cocktailList})
     })
   }
@@ -28,7 +26,7 @@ export default class CocktailContainer extends React.Component {
   handleChange = (event) => {
     event.preventDefault()
     this.setState({
-      searchTerm: event.target.value
+      searchTerms: event.target.value
     })
   }
 
@@ -36,16 +34,28 @@ export default class CocktailContainer extends React.Component {
     this.setState({currentCocktail: cocktail})
   }
 
+  filterByName = () => {
+    this.setState({
+      searchTerm: this.state.cocktailList.filter(x=>x.name.toLowerCase().includes(this.state.searchTerms.toLowerCase()))
+    }) 
+  }
+
   render() {
     return (
-      <Segment>
-        <Route path='/cocktails' render={()=>(
-            <CocktailList cocktails={this.state.cocktailList} changeCocktail={this.changeSelectedCocktail}/>
-              )}/>
-        <Route path='/cocktails/:id' render={()=>(
-            <CocktailShow cocktail={this.state.currentCocktail}/>
-            )}/>
-      </Segment>
+      <div className='container'>
+        <Grid className="ui two column grid">
+            <Grid.Column className="ui inverted black vertical segment">
+              <Route path='/cocktails' render={()=>(
+                <CocktailList cocktails={this.state.cocktailList} changeCocktail={this.changeSelectedCocktail}/>
+                )}/>
+            </Grid.Column>
+            <Grid.Column className="ui inverted black vertical segment">
+              <Route path='/cocktails/:id' render={()=>(
+                <CocktailShow cocktail={this.state.currentCocktail}/>
+                )}/>
+            </Grid.Column>
+        </Grid>
+    </div>
       )
   }
 

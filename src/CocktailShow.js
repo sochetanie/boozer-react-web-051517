@@ -1,27 +1,31 @@
 import React, {Component} from 'react'
-import { Card, Icon, Image } from 'semantic-ui-react'
-
+import { Grid, Card, Icon, Image } from 'semantic-ui-react'
 
 export default class CocktailShow extends React.Component {
 
   shouldRender () {
-    // debugger
-    return this.props.cocktail.name ? <div key={this.props.cocktail.id} className='right'>
-        <h2><strong>Description: </strong>{this.props.cocktail.name}</h2>
-        <p><strong>Description: </strong>{this.props.cocktail.description}</p>
-        <p><strong>Instructions: </strong>{this.props.cocktail.instructions}</p>
-        <h4>Proportions: </h4>
-        {this.props.cocktail.proportions.map(p => 
-          <ul key={p.id}>
-            <li> {p.amount}</li>
-            <li> {p.ingredient_name}</li>
+    return this.props.cocktail.name ? 
+    <Card key={this.props.cocktail.id} >
+    <Card.Content>
+      <Card.Header> {this.props.cocktail.name} </Card.Header>
+      <Card.Meta> {this.props.cocktail.description} </Card.Meta>
+    </Card.Content>
+    <Card.Content>
+      <Card.Description> {this.props.cocktail.instructions} </Card.Description>
+    </Card.Content>
+    <Card.Content>
+      <Card.Description> <h4>Proportions:</h4>
+          <ul>
+        {this.props.cocktail.proportions.map(x => 
+            <li> {x.amount} of {x.ingredient_name}</li>
+          )} 
           </ul>
-          )}
-    </div> : null
+      </Card.Description>
+    </Card.Content>
+    </Card> : null
   }
 
   render () {
-    console.log(this.props.cocktail)
     return (this.shouldRender())
   }
 
